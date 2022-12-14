@@ -1,0 +1,104 @@
+*************************************************************************
+package com.BikkadIT.interfaceExample;
+
+public interface Coonection {
+
+	public void commit();
+	public void rollBack();
+}
+
+*************************************************************************
+package com.BikkadIT.interfaceExample;
+
+import org.springframework.stereotype.Component;
+
+@Component("msq")
+public class Mysql implements Coonection {
+
+	
+	
+	public Mysql() {
+		super();
+		System.out.println("Mysql Constructor");
+	}
+
+	@Override
+	public void commit() {
+		System.out.println("Mysql ..........Commit");
+		
+	}
+
+	@Override
+	public void rollBack() {
+		System.out.println("Mysql ........... rollBack");
+		
+	}
+
+}
+***************************************************************************
+package com.BikkadIT.interfaceExample;
+
+
+import org.springframework.stereotype.Component;
+
+@Component("orc")
+public class Oracle implements Coonection{
+
+	
+	
+	
+	public Oracle() {
+		super();
+		System.out.println("Oracle Constructor");
+	}
+
+	@Override
+	public void commit() {
+	System.out.println("Oracle .......commit");
+	}
+
+	@Override
+	public void rollBack() {
+		System.out.println("Oracle ......rollback");
+		
+	}
+
+}
+****************************************************************************
+package com.BikkadIT.interfaceExample;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = "com.BikkadIT.interfecExample")
+public class JavaConfig {
+
+}
+**********************************************************************
+package com.BikkadIT.interfaceExample;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
+
+
+public class Test {
+
+	public static void main(String[] args) {
+		
+	ApplicationContext apc=	new AnnotationConfigApplicationContext(JavaConfig.class);
+	
+	Mysql mySql = apc.getBean("msq",Mysql.class);
+	mySql.commit();
+	mySql.rollBack();
+	
+	Oracle oracle=apc.getBean("orc",Oracle.class);
+	oracle.commit();
+	oracle.rollBack();
+	
+	
+	
+	}
+}
+
